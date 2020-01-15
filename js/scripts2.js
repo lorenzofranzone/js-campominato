@@ -29,16 +29,20 @@ console.log(numbersBombs);
 // Lista numeri generati dall'utente
 var numbersUser = [];
 
+var minTryCheck = 1; // Verifica il valore minimo del numero giocato
+var maxTryCheck = 100; // Verifica il valore massimo del numero giocato
 var tries = 5; // Tentativi disponibili
 var findBomb = false; // Bomba non trovata
-var message = 'Hai vinto!'
+var message = 'Hai vinto!' // Messaggio predefinito
 var points = 0; // Punti iniziali
 
 // Genero N numeri random fino a N unici
 while (numbersUser.length < tries && findBomb == false) {
   var userTry = false;
-  userTry = parseInt(prompt('Inserisci un numero da 1 a 100'));
-  console.log('Numero giocato:' + ' ' + userTry); // Tentativo utente
+  do {
+    userTry = parseInt(prompt('Inserisci un numero da 1 a 100'));
+    console.log('Numero giocato:' + ' ' + userTry); // Tentativo utente
+  } while (checkRangeNumber(minTryCheck, maxTryCheck, userTry) == false)
   if (isInArray(numbersUser, userTry) == false) {
     numbersUser.push(userTry);
     if (isInArray(numbersBombs, userTry) == true) {
@@ -65,7 +69,7 @@ function getRandomNumber(numMin, numMax) {
   return result;
 }
 
-// Funzione di verifica se un numero è presente in un array specifico
+// Funzione controllo: se un numero è presente in un array specifico
 function isInArray(array, element) {
   var result = false;
   var i = 0;
@@ -74,6 +78,15 @@ function isInArray(array, element) {
       result = true;
     }
     i++;
+  }
+  return result;
+}
+
+// Funzione controllo: se un numero è compreso in un certo range
+function checkRangeNumber(min, max, number) {
+  var result = false;
+  if(number >= min && number <= max) {
+    result = true;
   }
   return result;
 }
